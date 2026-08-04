@@ -46,4 +46,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
     tk.addEventListener('mouseenter', ()=>{ tk.querySelectorAll('.ticker-track').forEach(tt=>tt.style.animationPlayState='paused')});
     tk.addEventListener('mouseleave', ()=>{ tk.querySelectorAll('.ticker-track').forEach(tt=>tt.style.animationPlayState='running')});
   });
+
+  // Contact form: build mailto and open user's mail client
+  const contactForm = document.getElementById('contact-form');
+  if(contactForm){
+    contactForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const to = document.getElementById('to-email').value || 'jeongmyongkuk@gmail.com';
+      const name = document.getElementById('name').value.trim();
+      const from = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const subject = encodeURIComponent(`제작상담 문의: ${name}`);
+      const body = encodeURIComponent(`이름: ${name}\n이메일: ${from}\n\n문의 내용:\n${message}`);
+      const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
+    });
+  }
 });

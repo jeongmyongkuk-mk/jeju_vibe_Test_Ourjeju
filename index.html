@@ -209,6 +209,74 @@
       </div>
     </section>
 
+    <section class="section light" id="service">
+      <div class="section-inner reveal">
+        <div class="section-head">
+          <p class="label">Max Jeju Service</p>
+          <h2>홈페이지 설계 범위</h2>
+          <p>
+            첫 화면, 문장, 검색 구조, 문의 버튼까지 고객의 선택 흐름에 맞춰 필요한 범위를 설계합니다.
+          </p>
+        </div>
+        <div class="service-grid">
+          <article class="service-card">
+            <span>Brand Website</span>
+            <h3>브랜드 홈페이지</h3>
+            <p>첫 화면, 페이지 구성, 상품과 서비스 소개, 문의 버튼까지 고객의 이동 흐름을 기준으로 설계합니다.</p>
+          </article>
+          <article class="service-card">
+            <span>Search Markup</span>
+            <h3>문장과 검색 구조</h3>
+            <p>브랜드 문구, 소개 문장, 검색 키워드, 콘텐츠 흐름을 구성합니다.</p>
+          </article>
+          <article class="service-card">
+            <span>Conversion Architecture</span>
+            <h3>문의와 구매 흐름</h3>
+            <p>상담, 문의, 구매 전 망설임을 줄이는 구조와 제작 이후 운영 보완까지 설계합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light" id="portfolio">
+      <div class="section-inner reveal">
+        <div class="section-head">
+          <p class="label">프로젝트</p>
+          <h2>프로젝트 사례</h2>
+          <p>포트폴리오는 브랜드가 고객에게 발견되고, 이해되고, 신뢰를 얻는 과정을 기준으로 정리합니다.</p>
+        </div>
+        <div class="portfolio-grid">
+          <article class="portfolio-card">
+            <h3>064커피파트너스</h3>
+            <p>제주 카페·외식업 사업자를 위한 B2B 플랫폼입니다. 사업자 승인, 상품 구조, 주문과 문의 흐름을 설계했습니다.</p>
+          </article>
+          <article class="portfolio-card">
+            <h3>브랜드 홈페이지 프로젝트</h3>
+            <p>브랜드의 첫인상, 소개 문장, 서비스 구성, 문의 동선을 중심으로 고객이 빠르게 이해할 수 있는 구조를 설계했습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light" id="faq">
+      <div class="section-inner reveal">
+        <div class="section-head">
+          <p class="label">FAQ</p>
+          <h2>자주 묻는 질문</h2>
+        </div>
+        <div class="faq-list">
+          <article>
+            <h4>제작 기간은 얼마나 걸리나요?</h4>
+            <p>프로젝트 범위에 따라 다르지만 기본 랜딩형은 보통 1~2주 내외입니다.</p>
+          </article>
+          <article>
+            <h4>유지보수는 가능한가요?</h4>
+            <p>네, 각 패키지별로 일정 기간 유지보수 지원이 포함됩니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="contact-section" id="contact">
       <div class="site-width contact-inner reveal">
         <div class="contact-left">
@@ -218,7 +286,25 @@
             브랜드의 현재 상황과 필요한 범위를 살핀 뒤
             실제 운영에 맞는 설계 방향을 제안합니다.
           </p>
-          <a class="btn btn-primary" href="#">제작 상담 문의하기</a>
+          <form id="contact-form">
+            <div class="form-row">
+              <label for="name">이름</label>
+              <input id="name" name="name" type="text" required />
+            </div>
+            <div class="form-row">
+              <label for="email">연락처(이메일)</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div class="form-row">
+              <label for="message">문의 내용</label>
+              <textarea id="message" name="message" rows="6" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">문의 메일 보내기</button>
+              <button type="reset" class="btn btn-ghost">초기화</button>
+            </div>
+            <input type="hidden" id="to-email" value="jeongmyongkuk@gmail.com" />
+          </form>
         </div>
         <div class="contact-right">
           <!-- 오른쪽은 여백(또는 연락처 요약)을 두어 좌우 정렬이 균형을 이루게 함 -->

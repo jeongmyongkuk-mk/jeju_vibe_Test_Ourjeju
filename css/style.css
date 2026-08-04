@@ -91,6 +91,14 @@ h1{font-size:44px;margin:0 0 16px;color:var(--accent)}
 .contact-left p{color:#cfcfcf;line-height:1.7}
 .contact-summary{color:#bdbdbd}
 
+/* Contact form styles */
+.form-row{margin:12px 0;display:flex;flex-direction:column}
+.form-row label{font-size:14px;color:#d0d0d0;margin-bottom:6px}
+.form-row input,.form-row textarea{padding:10px;border-radius:8px;border:1px solid #2a2a2a;background:#0b0b0b;color:#fff}
+.form-actions{margin-top:12px;display:flex;gap:12px}
+.form-actions .btn{padding:10px 16px}
+
+
 /* Footer columns */
 .footer-inner.site-width{display:flex;gap:36px;align-items:flex-start}
 .footer-col{flex:1;min-width:160px}
