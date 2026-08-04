@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="40" viewBox="0 0 240 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="40" rx="6" fill="transparent" />
+  <text x="12" y="26" font-family="'Noto Sans KR', Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">Max Jeju</text>
+  <g transform="translate(170,8)">
+    <circle cx="10" cy="10" r="8" fill="#ffb84d" />
+    <rect x="22" y="6" width="36" height="8" rx="3" fill="#ffffff" opacity="0.06" />
+  </g>
+</svg>
