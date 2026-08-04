@@ -298,6 +298,7 @@
             <div class="form-row">
               <label for="phone">전화번호</label>
               <input id="phone" name="phone" type="tel" />
+              <div class="field-error" id="phone-error" aria-live="polite"></div>
             </div>
             <div class="form-row">
               <label for="email">연락처(이메일)</label>
@@ -324,6 +325,20 @@
         </div>
       </div>
     </section>
+
+    <!-- Toast and Modal for contact confirmations -->
+    <div id="toast" class="toast" aria-hidden="true"></div>
+    <div id="confirm-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button class="modal-close" aria-label="닫기">×</button>
+        <h3>문의 준비 완료</h3>
+        <p>작성하신 내용으로 메일 클라이언트를 열 준비가 되었습니다. 메일을 보내려면 아래 버튼을 눌러주세요.</p>
+        <div class="modal-actions">
+          <button id="modal-send" class="btn btn-primary">메일 열기</button>
+          <button id="modal-cancel" class="btn btn-ghost">취소</button>
+        </div>
+      </div>
+    </div>
   </main>
   <footer class="site-footer">
     <div class="footer-inner site-width">

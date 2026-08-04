@@ -55,13 +55,68 @@ document.addEventListener('DOMContentLoaded', ()=>{
       const to = document.getElementById('to-email').value || 'jeongmyongkuk@gmail.com';
       const name = document.getElementById('name').value.trim();
       const store = (document.getElementById('store') && document.getElementById('store').value.trim()) || '';
-      const phone = (document.getElementById('phone') && document.getElementById('phone').value.trim()) || '';
+      const phoneEl = document.getElementById('phone');
+      const phone = (phoneEl && phoneEl.value.trim()) || '';
+      const phoneErrorEl = document.getElementById('phone-error');
       const from = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
+
+      // Phone validation: allow digits, spaces, hyphens, parentheses; require 9-11 digits
+      const digits = phone.replace(/\D/g, '');
+      if(digits.length > 0 && (digits.length < 9 || digits.length > 11)){
+        phoneErrorEl.textContent = '전화번호는 숫자 9~11자리여야 합니다.';
+        phoneEl.classList.add('invalid');
+        phoneEl.focus();
+        showToast('전화번호 형식을 확인해주세요.');
+        return;
+      } else {
+        phoneErrorEl.textContent = '';
+        phoneEl.classList.remove('invalid');
+      }
+
       const subject = encodeURIComponent(`제작상담 문의: ${name}${store ? ' / ' + store : ''}`);
       const body = encodeURIComponent(`이름: ${name}\n매장명: ${store}\n전화번호: ${phone}\n이메일: ${from}\n\n문의 내용:\n${message}`);
       const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
-      window.location.href = mailto;
+
+      // Show modal confirmation
+      const modal = document.getElementById('confirm-modal');
+      const toast = document.getElementById('toast');
+      const sendBtn = document.getElementById('modal-send');
+      const cancelBtn = document.getElementById('modal-cancel');
+      const closeBtn = modal.querySelector('.modal-close');
+
+      function openMail(){
+        window.location.href = mailto;
+      }
+
+      // attach handlers
+      const cleanup = ()=>{
+        sendBtn.removeEventListener('click', openMailHandler);
+        cancelBtn.removeEventListener('click', closeHandler);
+        closeBtn.removeEventListener('click', closeHandler);
+        modal.setAttribute('aria-hidden','true');
+      };
+      const openMailHandler = ()=>{ cleanup(); openMail(); };
+      const closeHandler = ()=>{ cleanup(); };
+
+      sendBtn.addEventListener('click', openMailHandler);
+      cancelBtn.addEventListener('click', closeHandler);
+      closeBtn.addEventListener('click', closeHandler);
+      modal.setAttribute('aria-hidden','false');
+
+      // also show a brief toast
+      showToast('메일 클라이언트를 여는 중입니다...');
+      // auto open mail after short delay
+      setTimeout(()=>{ openMail(); cleanup(); }, 1400);
     });
+  }
+
+  // Toast helper
+  function showToast(msg, timeout=2200){
+    const t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(()=> t.classList.remove('show'), timeout);
   }
 });
