@@ -43,16 +43,25 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // Pause ticker on hover (for desktop)
   document.querySelectorAll('.hero-ticker').forEach(tk=>{
-    tk.addEventListener('mouseenter', ()=>{ tk.querySelectorAll('.ticker-track').forEach(tt=>tt.style.animationPlayState='paused')});
-    tk.addEventListener('mouseleave', ()=>{ tk.querySelectorAll('.ticker-track').forEach(tt=>tt.style.animationPlayState='running')});
+    tk.addEventListener('mouseenter', ()=>{
+      tk.querySelectorAll('.ticker-track').forEach(tt => tt.style.animationPlayState = 'paused');
+    });
+    tk.addEventListener('mouseleave', ()=>{
+      tk.querySelectorAll('.ticker-track').forEach(tt => tt.style.animationPlayState = 'running');
+    });
   });
 
-  // Contact form: build mailto and open user's mail client
+  // Contact form: submit to backend API for automatic email dispatch
   const contactForm = document.getElementById('contact-form');
   if(contactForm){
-    contactForm.addEventListener('submit', (e)=>{
+    const submitButton = document.getElementById('contact-submit');
+    const successPanel = document.getElementById('contact-success');
+    const errorText = document.getElementById('contact-error');
+
+    contactForm.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      const to = document.getElementById('to-email').value || 'jeongmyongkuk@gmail.com';
+      errorText.hidden = true;
+
       const name = document.getElementById('name').value.trim();
       const store = (document.getElementById('store') && document.getElementById('store').value.trim()) || '';
       const phoneEl = document.getElementById('phone');
@@ -74,41 +83,67 @@ document.addEventListener('DOMContentLoaded', ()=>{
         phoneEl.classList.remove('invalid');
       }
 
-      const subject = encodeURIComponent(`제작상담 문의: ${name}${store ? ' / ' + store : ''}`);
-      const body = encodeURIComponent(`이름: ${name}\n매장명: ${store}\n전화번호: ${phone}\n이메일: ${from}\n\n문의 내용:\n${message}`);
-      const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
+      const endpointField = document.getElementById('form-endpoint');
+      let endpoint = (endpointField && endpointField.value.trim()) || '';
+      const payload = { name, store, phone, email: from, message };
 
-      // Show modal confirmation
-      const modal = document.getElementById('confirm-modal');
-      const toast = document.getElementById('toast');
-      const sendBtn = document.getElementById('modal-send');
-      const cancelBtn = document.getElementById('modal-cancel');
-      const closeBtn = modal.querySelector('.modal-close');
+      submitButton.disabled = true;
+      submitButton.textContent = '전송 중...';
 
-      function openMail(){
-        window.location.href = mailto;
+      const useLocalBackend = endpoint === '';
+      if(useLocalBackend){
+        endpoint = '/api/contact';
       }
 
-      // attach handlers
-      const cleanup = ()=>{
-        sendBtn.removeEventListener('click', openMailHandler);
-        cancelBtn.removeEventListener('click', closeHandler);
-        closeBtn.removeEventListener('click', closeHandler);
-        modal.setAttribute('aria-hidden','true');
+      const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload),
       };
-      const openMailHandler = ()=>{ cleanup(); openMail(); };
-      const closeHandler = ()=>{ cleanup(); };
 
-      sendBtn.addEventListener('click', openMailHandler);
-      cancelBtn.addEventListener('click', closeHandler);
-      closeBtn.addEventListener('click', closeHandler);
-      modal.setAttribute('aria-hidden','false');
+      const isGAS = !useLocalBackend && (endpoint.startsWith('https://script.google.com') || endpoint.includes('macros.google.com'));
+      if(isGAS){
+        requestOptions.mode = 'no-cors';
+        requestOptions.headers = {'Content-Type':'text/plain;charset=utf-8'};
+      }
 
-      // also show a brief toast
-      showToast('메일 클라이언트를 여는 중입니다...');
-      // auto open mail after short delay
-      setTimeout(()=>{ openMail(); cleanup(); }, 1400);
+      try {
+        const res = await fetch(endpoint, requestOptions);
+
+        const success = isGAS || (res && res.ok);
+        if(success){
+          saveSubmission(payload);
+          contactForm.hidden = true;
+          successPanel.hidden = false;
+          showToast('문의가 접수되었습니다. 담당자가 곧 연락드립니다.');
+        } else {
+          const data = await res.json().catch(()=>null);
+          errorText.textContent = data?.error || '전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+          errorText.hidden = false;
+          showToast('전송에 실패했습니다.');
+        }
+      } catch(err){
+        console.error('Contact submit failed', err);
+        errorText.textContent = useLocalBackend
+          ? '로컬 서버 연결에 실패했습니다. 서버가 실행 중인지 확인해주세요.'
+          : '전송에 실패했습니다. endpoint URL과 CORS 설정을 확인해주세요.';
+        errorText.hidden = false;
+        showToast('전송에 실패했습니다.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = '문의하기';
+      }
     });
+  }
+
+  // Save submission in localStorage (simple record)
+  function saveSubmission(payload){
+    try{
+      const key = 'maxjeju_submissions';
+      const list = JSON.parse(localStorage.getItem(key) || '[]');
+      list.unshift(Object.assign({ ts: new Date().toISOString() }, payload));
+      localStorage.setItem(key, JSON.stringify(list.slice(0,50)));
+    }catch(e){ console.warn('failed to save submission', e); }
   }
 
   // Toast helper

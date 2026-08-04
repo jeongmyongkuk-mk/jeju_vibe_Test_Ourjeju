@@ -101,6 +101,12 @@ h1{font-size:44px;margin:0 0 16px;color:var(--accent)}
 /* field error */
 .field-error{color:#ff9b9b;font-size:13px;margin-top:6px}
 
+.form-success,
+.form-error{margin-top:18px;padding:18px 20px;border-radius:14px;line-height:1.6;}
+.form-success{background:rgba(39,147,82,0.13);color:#c8f5c5;border:1px solid rgba(39,147,82,0.28);}
+.form-success .success-icon{font-size:24px;margin-bottom:10px;}
+.form-error{background:rgba(255,95,95,0.1);color:#ffc4c4;border:1px solid rgba(255,95,95,0.24);}
+
 .invalid{box-shadow:0 0 0 3px rgba(255,156,156,0.06);border-color:#ff9b9b}
 
 /* Toast */

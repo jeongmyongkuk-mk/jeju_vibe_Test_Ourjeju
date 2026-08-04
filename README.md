@@ -18,6 +18,38 @@ npx http-server . -p 8000
 - 폰트(예: Noto Sans KR) 로컬 또는 CDN 연결
 - 세부 애니메이션과 접근성 개선
 
+## 백엔드 자동 이메일 전송 설정
+1) `.env.example`을 `.env`로 복사합니다.
+
+```powershell
+copy .env.example .env
+```
+
+2) `.env` 파일에서 SMTP 서버 정보를 채웁니다:
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_SECURE`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_FROM`
+- `CONTACT_TO`
+
+3) 패키지를 설치합니다.
+
+```powershell
+npm install
+```
+
+4) 백엔드 서버를 시작합니다.
+
+```powershell
+npm start
+```
+
+5) 브라우저에서 `http://localhost:3000`을 열어 `index.html`을 확인합니다.
+
+이제 문의 폼 제출 시 프론트엔드가 서버의 `/api/contact`로 POST 요청을 보내고, 서버에서 자동으로 이메일을 발송합니다.
+
 ## GitHub에 업로드하기 (자동 스크립트 포함)
 
 1) 원격 저장소 URL 준비(예: `git@github.com:jeongmyongkuk-mk/jeju_vibe_Test_Ourjeju.git`)

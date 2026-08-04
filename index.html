@@ -309,11 +309,18 @@
               <textarea id="message" name="message" rows="6" required></textarea>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">문의 메일 보내기</button>
+              <button type="submit" class="btn btn-primary" id="contact-submit">문의하기</button>
               <button type="reset" class="btn btn-ghost">초기화</button>
             </div>
-            <input type="hidden" id="to-email" value="jeongmyongkuk@gmail.com" />
+            <input type="hidden" id="form-endpoint" value="https://script.google.com/macros/s/AKfycbwMQ8yGtXm-EdI6A1NkXUxACigXG28eVXJtdKY7Bm5M2_XIZZEj4XnBe-9B-0-0TiR2/exec" />
+            <!-- LandingPage와 동일한 Google Apps Script endpoint -->
           </form>
+          <div id="contact-success" class="form-success" hidden>
+            <div class="success-icon">✅</div>
+            <h3>문의가 접수되었습니다.</h3>
+            <p>담당자가 확인 후 빠르게 연락드리겠습니다.</p>
+          </div>
+          <p id="contact-error" class="form-error" hidden>전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>
         </div>
         <div class="contact-right">
           <!-- 오른쪽은 여백(또는 연락처 요약)을 두어 좌우 정렬이 균형을 이루게 함 -->
@@ -326,19 +333,8 @@
       </div>
     </section>
 
-    <!-- Toast and Modal for contact confirmations -->
+    <!-- Toast for contact confirmations -->
     <div id="toast" class="toast" aria-hidden="true"></div>
-    <div id="confirm-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-      <div class="modal-content">
-        <button class="modal-close" aria-label="닫기">×</button>
-        <h3>문의 준비 완료</h3>
-        <p>작성하신 내용으로 메일 클라이언트를 열 준비가 되었습니다. 메일을 보내려면 아래 버튼을 눌러주세요.</p>
-        <div class="modal-actions">
-          <button id="modal-send" class="btn btn-primary">메일 열기</button>
-          <button id="modal-cancel" class="btn btn-ghost">취소</button>
-        </div>
-      </div>
-    </div>
   </main>
   <footer class="site-footer">
     <div class="footer-inner site-width">
